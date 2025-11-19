@@ -96,6 +96,8 @@ int ssv_ble_hci_rx_packet(u8 *rx_packet, u32 rx_len)
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(3,13,0)
     hci_recv_frame(ssv_hdev,bskb);
 #else
+    /* For older kernels, must set skb->dev to the HCI device */
+    bskb->dev = (void *)ssv_hdev;
     hci_recv_frame(bskb);
 #endif
 #endif
